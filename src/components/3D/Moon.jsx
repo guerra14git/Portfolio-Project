@@ -2,10 +2,24 @@ import { useRef, useMemo } from 'react';
 import { useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 
-function Moon() {
+function Moon({
+  onClick,
+  position = [0, 1.05, -2],
+  isTransitioning = false,
+  introScaleMultiplier = 1,
+  homeScaleMultiplier = 2.65,
+  introBodyOpacity = 0.34,
+  homeBodyOpacity = 0,
+  introWireOpacity = 1,
+  homeWireOpacity = 0.42,
+  showBody = true,
+  showWireframe = true,
+}) {
   const groupRef = useRef();
   const geomRef = useRef();
+  const bodyMaterialRef = useRef();
   const materialRef = useRef();
+  const transitionRef = useRef(0);
   const { viewport } = useThree();
 
   const responsiveScale = Math.min(0.7, viewport.width / 10);
@@ -48,9 +62,29 @@ function Moon() {
   useFrame((state, delta) => {
     const time = state.clock.elapsedTime;
 
+    transitionRef.current = THREE.MathUtils.lerp(
+      transitionRef.current,
+      isTransitioning ? 1 : 0,
+      delta * 2.2,
+    );
+
     if (groupRef.current) {
       groupRef.current.rotation.y += delta * 0.15;
       groupRef.current.rotation.x += delta * 0.08;
+      const scaleMultiplier = THREE.MathUtils.lerp(
+        introScaleMultiplier,
+        homeScaleMultiplier,
+        transitionRef.current,
+      );
+      groupRef.current.scale.setScalar(responsiveScale * scaleMultiplier);
+    }
+
+    if (bodyMaterialRef.current) {
+      bodyMaterialRef.current.opacity = THREE.MathUtils.lerp(
+        introBodyOpacity,
+        homeBodyOpacity,
+        transitionRef.current,
+      );
     }
 
     if (geomRef.current) {
@@ -81,27 +115,34 @@ function Moon() {
 
     if (materialRef.current) {
       materialRef.current.uniforms.time.value = time;
+      materialRef.current.uniforms.uOpacity.value = THREE.MathUtils.lerp(
+        introWireOpacity,
+        homeWireOpacity,
+        transitionRef.current,
+      );
     }
   });
 
   return (
     <group 
       ref={groupRef} 
-      position={[-2.6, 1.8, -2]} 
-      scale={[responsiveScale, responsiveScale, responsiveScale]}
+      position={position} 
+      onClick={onClick}
     >
       <mesh>
         <primitive object={baseGeometry} attach="geometry" ref={geomRef} />
         <meshStandardMaterial
-          color="#334155"
+          ref={bodyMaterialRef}
+          color="#5d708a"
           transparent
-          opacity={0.24}
-          emissive="#0b101e"
-          emissiveIntensity={0.1}
+          opacity={introBodyOpacity}
+          emissive="#21314b"
+          emissiveIntensity={0.22}
           roughness={0.95}
           metalness={0.03}
           depthWrite={false}
           flatShading
+          visible={showBody}
         />
       </mesh>
 
@@ -111,7 +152,9 @@ function Moon() {
           ref={materialRef}
           wireframe={true}
           transparent={true}
-          uniforms={{ time: { value: 0 } }}
+          depthWrite={false}
+          uniforms={{ time: { value: 0 }, uOpacity: { value: introWireOpacity } }}
+          visible={showWireframe}
           
           vertexShader={`
             varying vec3 vPos;
@@ -123,6 +166,7 @@ function Moon() {
           
           fragmentShader={`
             uniform float time;
+            uniform float uOpacity;
             varying vec3 vPos;
 
             float random(vec2 st) {
@@ -130,9 +174,9 @@ function Moon() {
             }
 
             void main() {
-              vec3 baseColor = vec3(0.12, 0.16, 0.23);
-              vec3 glowColor = vec3(0.35, 0.60, 0.85);
-              float alpha = 0.18;
+              vec3 baseColor = vec3(0.24, 0.31, 0.42);
+              vec3 glowColor = vec3(0.54, 0.74, 0.96);
+              float alpha = 0.28;
 
               float intensity = 0.0;
               
@@ -173,8 +217,13 @@ function Moon() {
                 if (dist < tailLength) intensity += (1.0 - (dist / tailLength)) * maxInt;
               }
 
-              vec3 finalColor = mix(baseColor, glowColor, clamp(intensity, 0.0, 1.0));
-              float finalAlpha = max(alpha, intensity * 0.8);
+              vec3 viewDir = normalize(vPos);
+              float rimGlow = pow(1.0 - abs(viewDir.z), 2.8) * 0.28;
+              float glowMix = clamp(intensity + rimGlow, 0.0, 1.0);
+
+              vec3 finalColor = mix(baseColor, glowColor, glowMix);
+              finalColor += vec3(0.10, 0.14, 0.20) * rimGlow;
+              float finalAlpha = max(alpha, 0.28 + intensity * 0.7 + rimGlow * 0.45) * uOpacity;
 
               gl_FragColor = vec4(finalColor, finalAlpha);
             }

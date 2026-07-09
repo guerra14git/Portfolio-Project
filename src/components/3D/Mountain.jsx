@@ -6,7 +6,7 @@ function Mountain() {
   const geomRef = useRef();
   const materialRef = useRef();
 
-  const baseGeometry = useMemo(() => new THREE.PlaneGeometry(50, 50, 50, 50), []);
+  const baseGeometry = useMemo(() => new THREE.PlaneGeometry(96, 84, 96, 84), []);
   const cachedSteps = useMemo(() => {
     const position = baseGeometry.attributes.position.array;
     const steps = new Float32Array(position.length);
@@ -34,9 +34,9 @@ function Mountain() {
 
         let z = Math.sin(stepX * 0.3 + time * 0.8) * Math.cos(stepY * 0.3 + time * 0.8) * 0.6;
 
-        if (stepY > 4) z += (stepY - 4) * 0.25;
+        if (stepY > 4) z += (stepY - 4) * 0.14;
         if (stepY < -4) z -= (Math.abs(stepY) - 4) * 0.25;
-        if (Math.abs(stepX) > 15) z -= (Math.abs(stepX) - 15) * 0.25;
+        if (Math.abs(stepX) > 30) z -= (Math.abs(stepX) - 30) * 0.10;
 
         pos.setZ(i, z);
       }
@@ -81,9 +81,9 @@ function Mountain() {
             }
 
             void main() {
-              vec3 baseColor = vec3(0.12, 0.16, 0.23); 
-              vec3 glowColor = vec3(0.35, 0.60, 0.85); 
-              float alpha = 0.3; 
+              vec3 baseColor = vec3(0.18, 0.22, 0.30); 
+              vec3 glowColor = vec3(0.56, 0.68, 0.84); 
+              float alpha = 0.30; 
 
               float intensity = 0.0;
               
@@ -91,7 +91,7 @@ function Mountain() {
               float tailLength = 1.5; 
               float baseSpeed = 0.4;  
               float varSpeed = 0.6;   
-              float maxInt = 0.25; 
+              float maxInt = 0.30; 
 
               float lineIdY = floor(vPos.y + 0.5);
               float lineIdX = floor(vPos.x + 0.5);
@@ -137,16 +137,24 @@ function Mountain() {
                 if (dist < tailLength * 1.4) { intensity += (1.0 - (dist / (tailLength * 1.4))) * maxInt; }
               }
 
-              vec3 finalColor = mix(baseColor, glowColor, clamp(intensity, 0.0, 1.0));
-              float finalAlpha = max(alpha, intensity * 0.8);
+              float glowMask = clamp(intensity, 0.0, 1.0);
+              float cyberHalo = smoothstep(0.03, 0.22, glowMask) * 0.24;
+              float shadowHalo = smoothstep(0.0, 0.12, glowMask) * 0.14;
 
-              vec3 fogColor = vec3(0.012, 0.012, 0.031); 
-              
-              float distFromCenter = length(vPos.xy);
-              
-              float fogFade = smoothstep(12.0, 22.0, distFromCenter);
-              
+              vec3 finalColor = mix(baseColor, glowColor, glowMask * 0.92);
+              finalColor += vec3(0.04, 0.05, 0.08) * shadowHalo;
+              finalColor += vec3(0.12, 0.16, 0.22) * cyberHalo;
+              float finalAlpha = max(alpha, intensity * 0.78);
+
+              vec3 fogColor = vec3(0.03, 0.04, 0.08); 
+
+              float sideFade = smoothstep(26.0, 48.0, abs(vPos.x));
+              float horizonFade = smoothstep(6.0, 38.0, vPos.y + 18.0);
+              float baseFade = smoothstep(0.55, 1.15, max(abs(vPos.x) / 52.0, abs(vPos.y) / 42.0));
+              float fogFade = clamp(max(baseFade, horizonFade * 0.9) + sideFade * 0.18, 0.0, 1.0);
+
               finalColor = mix(finalColor, fogColor, fogFade);
+              finalAlpha = max(finalAlpha, 0.16 + horizonFade * 0.12);
 
               gl_FragColor = vec4(finalColor, finalAlpha);
             }
