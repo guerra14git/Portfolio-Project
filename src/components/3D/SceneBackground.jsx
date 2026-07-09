@@ -5,35 +5,75 @@ import { useEffect, useRef, useState } from 'react';
 import Moon from './Moon';
 import Mountain from './Mountain';
 
-function TransitionCamera({ active }) {
+function ScrollReactiveImage() {
+  const groupRef = useRef();
+  // O viewport.aspect diz-nos a proporção do ecrã em tempo real!
+  const { viewport } = useThree(); 
+
+  // Se o aspect < 1, o ecrã está de pé (Telemóvel). Se for > 1, está deitado (PC).
+  const isMobile = viewport.aspect < 1;
+  
+  // COORDENADAS "SNIPER-SAFE":
+  // No PC fica em -0.9 (ligeiramente à esquerda dentro da mira). 
+  // No telemóvel fica no 0 (exatamente no centro).
+  const baseX = isMobile ? 0 : -0.9;
+  const baseY = isMobile ? 1.4 : 1.05; // 1.05 é a altura exata dos olhos da câmara
+  const baseZ = -8; 
+
+  useFrame(() => {
+    if (!groupRef.current) return;
+    
+    // Lê o scroll suavemente
+    const scrollY = window.scrollY;
+    
+    // Animação de Parallax - A imagem sobe e roda conforme desces a página
+    groupRef.current.position.y = baseY + (scrollY * 0.003); 
+    groupRef.current.rotation.x = scrollY * 0.001;
+    groupRef.current.rotation.y = scrollY * 0.0005;
+  });
+
+  return (
+    <group ref={groupRef} position={[baseX, baseY, baseZ]}>
+      <Html
+        transform
+        distanceFactor={isMobile ? 2.0 : 1.2} // <-- Reduzimos de 3.5/2.5 para 2.0/1.2!
+        occlude={false}
+      >
+        <div className="relative h-[400px] w-[280px]">
+          <img 
+            src="/myImg.jpg" 
+            alt="Ricardo Guerra"
+            className="h-full w-full object-cover rounded-2xl border-2 border-[#334155] shadow-[0_0_20px_rgba(0,0,0,0.8)]"
+          />
+          <div className="absolute -inset-1 -z-10 rounded-2xl bg-[#8ea0bf]/10 blur-md" />
+        </div>
+      </Html>
+    </group>
+  );
+}
+
+// 2. A TUA CÂMARA
+function TransitionCamera({ active, instant }) {
   const { camera } = useThree();
 
-  // Stable refs — never recreated, never trigger re-renders.
-  const progressRef   = useRef(0);
+  const progressRef   = useRef(instant ? 1 : 0);
   const originPos     = useRef(new THREE.Vector3(0, 0, 5));
   const targetPos     = useRef(new THREE.Vector3(0, 1.05, -1.6));
   const lookAtTarget  = useRef(new THREE.Vector3(0, 1.05, -2));
   const lerpedPos     = useRef(new THREE.Vector3());
 
-    useFrame((_, delta) => {
+  useFrame((_, delta) => {
     const goal = active ? 1 : 0;
-    progressRef.current = THREE.MathUtils.lerp(
-      progressRef.current,
-      goal,
-      delta * 2.2,
-    );
 
-    // Don't touch the camera while still on the intro (progress ~0).
-    // This lets OrbitControls and the Html InitPrompt work undisturbed.
-    // Once the user clicks and progress lifts off 0, we take full control.
+    if (instant && active) {
+      progressRef.current = 1;
+    } else {
+      progressRef.current = THREE.MathUtils.lerp(progressRef.current, goal, delta * 2.2);
+    }
+
     if (progressRef.current < 0.001) return;
 
-    lerpedPos.current.lerpVectors(
-      originPos.current,
-      targetPos.current,
-      progressRef.current,
-    );
-
+    lerpedPos.current.lerpVectors(originPos.current, targetPos.current, progressRef.current);
     camera.position.copy(lerpedPos.current);
     camera.fov = THREE.MathUtils.lerp(60, 18, progressRef.current);
     camera.lookAt(lookAtTarget.current);
@@ -43,7 +83,8 @@ function TransitionCamera({ active }) {
   return null;
 }
 
-function InitPrompt({ active, onInit }) {
+// 3. O TERMINAL HACKER
+function InitPrompt({ active, onInit, visible }) {
   const command = './init_portfolio.sh';
   const [typed, setTyped] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
@@ -51,34 +92,21 @@ function InitPrompt({ active, onInit }) {
 
   useEffect(() => {
     let timeoutId;
-
     if (!isDeleting && typed.length < command.length) {
       const typeSpeed = 100 + Math.random() * 150;
-      timeoutId = setTimeout(() => {
-        setTyped(command.slice(0, typed.length + 1));
-      }, typeSpeed);
+      timeoutId = setTimeout(() => { setTyped(command.slice(0, typed.length + 1)); }, typeSpeed);
     } else if (!isDeleting && typed.length === command.length) {
       if (!isGlowing) {
-        timeoutId = setTimeout(() => {
-          setIsGlowing(true);
-        }, 500);
+        timeoutId = setTimeout(() => { setIsGlowing(true); }, 500);
       } else {
-        timeoutId = setTimeout(() => {
-          setIsGlowing(false);
-          setIsDeleting(true);
-        }, 1200);
+        timeoutId = setTimeout(() => { setIsGlowing(false); setIsDeleting(true); }, 1200);
       }
     } else if (isDeleting && typed.length > 0) {
       const deleteSpeed = 60 + Math.random() * 60;
-      timeoutId = setTimeout(() => {
-        setTyped(command.slice(0, typed.length - 1));
-      }, deleteSpeed);
+      timeoutId = setTimeout(() => { setTyped(command.slice(0, typed.length - 1)); }, deleteSpeed);
     } else {
-      timeoutId = setTimeout(() => {
-        setIsDeleting(false);
-      }, 500);
+      timeoutId = setTimeout(() => { setIsDeleting(false); }, 500);
     }
-
     return () => clearTimeout(timeoutId);
   }, [command, typed, isDeleting, isGlowing]);
 
@@ -89,7 +117,7 @@ function InitPrompt({ active, onInit }) {
       distanceFactor={0.9}
       occlude={false}
       zIndexRange={[100, 0]}
-      style={{ pointerEvents: active ? 'none' : 'auto', transition: 'opacity 0.4s ease', opacity: active ? 0 : 1 }}
+      style={{ pointerEvents: active ? 'none' : 'auto', transition: 'opacity 0.4s ease', opacity: active ? 0 : 1, display: visible ? 'block' : 'none' }}
     >
       <button
         type="button"
@@ -124,7 +152,13 @@ function InitPrompt({ active, onInit }) {
   );
 }
 
+// 4. A CENA PRINCIPAL
 function SceneBackground({ isTransitioning, showPrompt, onInit }) {
+  
+  const isHomeView = !showPrompt; 
+  const forceActive = isTransitioning || isHomeView; 
+  const forceInstant = isHomeView && !isTransitioning; 
+
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#020205]">
       <Canvas
@@ -137,9 +171,10 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 5, 5]} intensity={5} color="#cbd5e1" />
         <Stars radius={120} depth={70} count={1800} factor={2.1} saturation={0} fade speed={0.18} />
+        
         <Moon
           onClick={onInit}
-          isTransitioning={isTransitioning}
+          isTransitioning={forceActive} 
           introScaleMultiplier={1}
           homeScaleMultiplier={2.65}
           introBodyOpacity={0.34}
@@ -147,9 +182,10 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
           introWireOpacity={1}
           homeWireOpacity={0.42}
         />
-                <Mountain />
-                <TransitionCamera active={isTransitioning} />
-        {/* OrbitControls: only on Intro so it never fights TransitionCamera on Home. */}
+        <Mountain />
+        
+        <TransitionCamera active={forceActive} instant={forceInstant} />
+        
         {!isTransitioning && showPrompt && (
           <OrbitControls
             enableZoom={false}
@@ -162,6 +198,12 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         )}
         
         <InitPrompt active={isTransitioning} onInit={onInit} visible={showPrompt} />
+
+        {/* --- A TUA FOTOGRAFIA AQUI, DENTRO DO CANVAS! --- */}
+        {!isTransitioning && !showPrompt && (
+          <ScrollReactiveImage />
+        )}
+
       </Canvas>
     </div>
   );

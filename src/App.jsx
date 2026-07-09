@@ -11,7 +11,7 @@ function AppShell() {
   const navigate = useNavigate();
   const location = useLocation();
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const [showContent, setShowContent] = useState(false);
+  const [showContent, setShowContent] = useState(location.pathname !== '/');
 
   useEffect(() => {
     if (!isTransitioning) return;
@@ -25,6 +25,7 @@ function AppShell() {
     //         3D scene has time to settle before text appears.
     const contentTimer = setTimeout(() => {
       setShowContent(true);
+      setIsTransitioning(false);
     }, CONTENT_REVEAL_DELAY_MS);
 
     return () => {
