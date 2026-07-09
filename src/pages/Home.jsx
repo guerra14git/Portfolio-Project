@@ -11,8 +11,7 @@ function Home() {
           <p className="mb-6 text-[#8ea0bf] uppercase tracking-widest">Software Engineer</p>
           
           <p className="leading-relaxed text-gray-300">
-            Faz scroll para baixo! Repara como a fotografia ali do lado não está colada ao vidro, 
-            ela flutua no mundo 3D e reage à tua navegação.
+            pila pila pila
           </p>
 
           {/* Um bloco lá para baixo só para veres o scroll a funcionar */}

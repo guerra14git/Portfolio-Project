@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import Intro from './pages/Intro';
 import Home from './pages/Home';
@@ -71,11 +71,11 @@ function AppShell() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <HashRouter>
       <div className="w-full h-screen bg-[#020205]">
         <AppShell />
       </div>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
