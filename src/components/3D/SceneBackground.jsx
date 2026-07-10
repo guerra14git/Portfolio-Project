@@ -7,38 +7,39 @@ import Mountain from './Mountain';
 
 function ScrollReactiveImage() {
   const groupRef = useRef();
-  // O viewport.aspect diz-nos a proporção do ecrã em tempo real!
   const { viewport } = useThree(); 
 
-  // Se o aspect < 1, o ecrã está de pé (Telemóvel). Se for > 1, está deitado (PC).
+  // Detect mobile device based on aspect ratio
   const isMobile = viewport.aspect < 1;
-  
-  // COORDENADAS "SNIPER-SAFE":
-  // No PC fica em -0.9 (ligeiramente à esquerda dentro da mira). 
-  // No telemóvel fica no 0 (exatamente no centro).
-  const baseX = isMobile ? 0 : -0.9;
-  const baseY = isMobile ? 1.4 : 1.05; // 1.05 é a altura exata dos olhos da câmara
-  const baseZ = -8; 
 
+  // Responsive layout configuration
+  const layoutConfig = isMobile ? {
+    // Mobile values
+    x: 0,
+    y: 1.5,
+    z: -8,
+    scale: 1.0
+  } : {
+    // Desktop values
+    x: -0.9,
+    y: 1.05,
+    z: -8,
+    scale: 1.2
+  };
+
+  // Parallax animation loop
   useFrame(() => {
     if (!groupRef.current) return;
-    
-    // Lê o scroll suavemente
     const scrollY = window.scrollY;
     
-    // Animação de Parallax - A imagem sobe e roda conforme desces a página
-    groupRef.current.position.y = baseY + (scrollY * 0.003); 
+    groupRef.current.position.y = layoutConfig.y + (scrollY * 0.003); 
     groupRef.current.rotation.x = scrollY * 0.001;
     groupRef.current.rotation.y = scrollY * 0.0005;
   });
 
   return (
-    <group ref={groupRef} position={[baseX, baseY, baseZ]}>
-      <Html
-        transform
-        distanceFactor={isMobile ? 2.0 : 1.2} // <-- Reduzimos de 3.5/2.5 para 2.0/1.2!
-        occlude={false}
-      >
+    <group ref={groupRef} position={[layoutConfig.x, layoutConfig.y, layoutConfig.z]}>
+      <Html transform distanceFactor={layoutConfig.scale} occlude={false}>
         <div className="relative h-[400px] w-[280px]">
           <img 
             src="/myImg.jpg" 
@@ -52,7 +53,7 @@ function ScrollReactiveImage() {
   );
 }
 
-// 2. A TUA CÂMARA
+// Camera Transition Component
 function TransitionCamera({ active, instant }) {
   const { camera } = useThree();
 
@@ -83,13 +84,14 @@ function TransitionCamera({ active, instant }) {
   return null;
 }
 
-// 3. O TERMINAL HACKER
+// Terminal Prompt Component
 function InitPrompt({ active, onInit, visible }) {
   const command = './init_portfolio.sh';
   const [typed, setTyped] = useState('');
   const [isDeleting, setIsDeleting] = useState(false);
   const [isGlowing, setIsGlowing] = useState(false);
 
+  // Typewriter effect logic
   useEffect(() => {
     let timeoutId;
     if (!isDeleting && typed.length < command.length) {
@@ -117,13 +119,17 @@ function InitPrompt({ active, onInit, visible }) {
       distanceFactor={0.9}
       occlude={false}
       zIndexRange={[100, 0]}
-      style={{ pointerEvents: active ? 'none' : 'auto', transition: 'opacity 0.4s ease', opacity: active ? 0 : 1, display: visible ? 'block' : 'none' }}
+      style={{ 
+        pointerEvents: active ? 'none' : 'auto', 
+        transition: 'opacity 0.4s ease', 
+        opacity: active ? 0 : 1, 
+        display: visible ? 'block' : 'none' 
+      }}
     >
       <button
         type="button"
         onClick={onInit}
-        className="select-none px-2 py-1 text-left"
-        style={{ cursor: 'pointer', transform: 'translateY(10px)' }}
+        className="select-none px-2 py-1 text-left cursor-pointer translate-y-[10px]"
       >
         <p
           className="whitespace-nowrap font-bold tracking-[0.25em]"
@@ -143,8 +149,7 @@ function InitPrompt({ active, onInit, visible }) {
           <span className="mr-4">{'>'}</span>
           {typed}
           <span
-            className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle"
-            style={{ opacity: 0.85, backgroundColor: '#8ea0bf' }}
+            className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle opacity-85 bg-[#8ea0bf]"
           />
         </p>
       </button>
@@ -152,9 +157,10 @@ function InitPrompt({ active, onInit, visible }) {
   );
 }
 
-// 4. A CENA PRINCIPAL
+// Main Scene Controller
 function SceneBackground({ isTransitioning, showPrompt, onInit }) {
   
+  // State resolution for reload handling
   const isHomeView = !showPrompt; 
   const forceActive = isTransitioning || isHomeView; 
   const forceInstant = isHomeView && !isTransitioning; 
@@ -182,6 +188,7 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
           introWireOpacity={1}
           homeWireOpacity={0.42}
         />
+        
         <Mountain />
         
         <TransitionCamera active={forceActive} instant={forceInstant} />
@@ -199,7 +206,6 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         
         <InitPrompt active={isTransitioning} onInit={onInit} visible={showPrompt} />
 
-        {/* --- A TUA FOTOGRAFIA AQUI, DENTRO DO CANVAS! --- */}
         {!isTransitioning && !showPrompt && (
           <ScrollReactiveImage />
         )}
