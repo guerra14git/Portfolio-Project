@@ -23,12 +23,12 @@ function AppShell() {
 
     setTimeout(() => {
       setShowContent(true);
-      setIsTransitioning(false);
-    }, CONTENT_REVEAL_DELAY_MS);
+    }, 800);
 
     setTimeout(() => {
       navigate('/home');
-    }, TRANSITION_DURATION_MS);
+      setIsTransitioning(false); 
+    }, 1800);
   };
 
   return (
