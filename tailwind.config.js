@@ -7,15 +7,15 @@ export default {
   theme: {
     extend: {
       colors: {
-        //website colors
-        'space-dark': '#030308',  // main background color
-        'space-card': '#0B101E',  // project card background color
-        
-        'cyber-green': '#00FF41', // Matrix/cyberpunk green - text
-        'cyber-glow': '#4ADE80',  // Matrix/cyberpunk green - glow/hover
-        
-        'moon-base': '#E2E8F0',   // moons grey base color
-        'wireframe': '#334155',   // wireframe color for mountain lines
+        cyber: {
+          black: '#020205', // Background
+          gray: '#8ea0bf',  // Secundary text
+          white: '#ffffff', // Primary text
+          accent: '#0ea5e9', // Buttons and highlights
+          line: '#334155',  // Lines and borders
+          card: '#1e293b',  // Background of boxes and icons
+        }
+
       },
       fontFamily: {
         mono: ['"Fira Code"', 'monospace', 'ui-monospace', 'SFMono-Regular'],
