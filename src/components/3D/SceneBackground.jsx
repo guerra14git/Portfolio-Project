@@ -5,9 +5,6 @@ import { useEffect, useRef, useState } from 'react';
 import Moon from './Moon';
 import Mountain from './Mountain';
 
-// ==========================================
-// 1. Camera Transition Component
-// ==========================================
 function TransitionCamera({ active, instant }) {
   const { camera } = useThree();
 
@@ -38,9 +35,6 @@ function TransitionCamera({ active, instant }) {
   return null;
 }
 
-// ==========================================
-// 2. Terminal Prompt Component
-// ==========================================
 function InitPrompt({ active, onInit, visible }) {
   const command = './init_portfolio.sh';
   const [typed, setTyped] = useState('');
@@ -86,14 +80,13 @@ function InitPrompt({ active, onInit, visible }) {
   );
 }
 
-// ==========================================
-// 3. Main Scene Controller
-// ==========================================
 function SceneBackground({ isTransitioning, showPrompt, onInit }) {
-  // State resolution for reload handling
   const isHomeView = !showPrompt; 
   const forceActive = isTransitioning || isHomeView; 
   const forceInstant = isHomeView && !isTransitioning; 
+
+  // Simple check (Mobile)
+  const isMobile = window.innerWidth < 768;
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#020205]">
@@ -102,12 +95,14 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         <directionalLight position={[5, 5, 5]} intensity={5} color="#cbd5e1" />
         <Stars radius={120} depth={70} count={1800} factor={2.1} saturation={0} fade speed={0.18} />
         
-        {/* Standard static Moon component */}
         <Moon
           onClick={onInit}
           isTransitioning={forceActive} 
-          introScaleMultiplier={1}
-          homeScaleMultiplier={2.65}
+          
+          introScaleMultiplier={isMobile ? 1.6 : 1}
+          
+          homeScaleMultiplier={isMobile ? 3.5 : 2.65}
+          
           introBodyOpacity={0.34}
           homeBodyOpacity={0}
           introWireOpacity={1}
@@ -117,7 +112,6 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         <Mountain />
         <TransitionCamera active={forceActive} instant={forceInstant} />
         
-        {/* Render orbit controls only on intro screen */}
         {!isTransitioning && showPrompt && (
           <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.2} maxPolarAngle={Math.PI / 1.8} minAzimuthAngle={-Math.PI / 8} maxAzimuthAngle={Math.PI / 8} />
         )}
