@@ -1,50 +1,34 @@
+import React, { useState, useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import SceneBackground from './components/3D/SceneBackground';
 import Intro from './pages/Intro';
 import Home from './pages/Home';
-import SceneBackground from './components/3D/SceneBackground';
+/*import Navbar from './components/Navigation/Navbar'; -- Later Add*/ 
 
-const NAVIGATE_DELAY_MS = 1350;
-const CONTENT_REVEAL_DELAY_MS = 1600;
+// Configuration
+const TRANSITION_DURATION_MS = 1800;
+const CONTENT_REVEAL_DELAY_MS = 800;
 
 function AppShell() {
-  const navigate = useNavigate();
   const location = useLocation();
+  const navigate = useNavigate();
+
+  // State initialization
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [showContent, setShowContent] = useState(location.pathname !== '/');
 
-  useEffect(() => {
-    if (!isTransitioning) return;
+  // Handle initialization sequence
+  const handleInit = () => {
+    setIsTransitioning(true);
 
-    // Step 1: change the route after the camera zoom-in finishes.
-    const navTimer = setTimeout(() => {
-      navigate('/home');
-    }, NAVIGATE_DELAY_MS);
-
-    // Step 2: reveal the Home content slightly later so the
-    //         3D scene has time to settle before text appears.
-    const contentTimer = setTimeout(() => {
+    setTimeout(() => {
       setShowContent(true);
       setIsTransitioning(false);
     }, CONTENT_REVEAL_DELAY_MS);
 
-    return () => {
-      clearTimeout(navTimer);
-      clearTimeout(contentTimer);
-    };
-  }, [isTransitioning, navigate]);
-
-  // Reset content visibility when navigating back to Intro.
-  useEffect(() => {
-    if (location.pathname === '/') {
-      setShowContent(false);
-      setIsTransitioning(false);
-    }
-  }, [location.pathname]);
-
-  const handleInit = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
+    setTimeout(() => {
+      navigate('/home');
+    }, TRANSITION_DURATION_MS);
   };
 
   return (
@@ -54,7 +38,8 @@ function AppShell() {
         showPrompt={location.pathname === '/'}
         onInit={handleInit}
       />
-      {/* Fade-in wrapper: content is invisible until showContent becomes true */}
+      
+      {/* 2D Overlay Container */}
       <div
         className="pointer-events-none relative z-10 h-full w-full transition-opacity duration-700"
         style={{ opacity: showContent ? 1 : 0 }}
@@ -71,8 +56,9 @@ function AppShell() {
 
 function App() {
   return (
+    // HashRouter required for github pages 
     <HashRouter>
-      <div className="w-full h-screen bg-[#020205]">
+      <div className="h-screen w-full bg-[#020205] overflow-x-hidden">
         <AppShell />
       </div>
     </HashRouter>
