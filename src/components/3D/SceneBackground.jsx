@@ -5,55 +5,9 @@ import { useEffect, useRef, useState } from 'react';
 import Moon from './Moon';
 import Mountain from './Mountain';
 
-function ScrollReactiveImage() {
-  const groupRef = useRef();
-  const { viewport } = useThree(); 
-
-  // Detect mobile device based on aspect ratio
-  const isMobile = viewport.aspect < 1;
-
-  // Responsive layout configuration
-  const layoutConfig = isMobile ? {
-    // Mobile values
-    x: 0,
-    y: 1.5,
-    z: -8,
-    scale: 1.0
-  } : {
-    // Desktop values
-    x: -0.9,
-    y: 1.05,
-    z: -8,
-    scale: 1.2
-  };
-
-  // Parallax animation loop
-  useFrame(() => {
-    if (!groupRef.current) return;
-    const scrollY = window.scrollY;
-    
-    groupRef.current.position.y = layoutConfig.y + (scrollY * 0.003); 
-    groupRef.current.rotation.x = scrollY * 0.001;
-    groupRef.current.rotation.y = scrollY * 0.0005;
-  });
-
-  return (
-    <group ref={groupRef} position={[layoutConfig.x, layoutConfig.y, layoutConfig.z]}>
-      <Html transform distanceFactor={layoutConfig.scale} occlude={false}>
-        <div className="relative h-[400px] w-[280px]">
-          <img 
-            src="/myImg.jpg" 
-            alt="Ricardo Guerra"
-            className="h-full w-full object-cover rounded-2xl border-2 border-[#334155] shadow-[0_0_20px_rgba(0,0,0,0.8)]"
-          />
-          <div className="absolute -inset-1 -z-10 rounded-2xl bg-[#8ea0bf]/10 blur-md" />
-        </div>
-      </Html>
-    </group>
-  );
-}
-
-// Camera Transition Component
+// ==========================================
+// 1. Camera Transition Component
+// ==========================================
 function TransitionCamera({ active, instant }) {
   const { camera } = useThree();
 
@@ -84,7 +38,9 @@ function TransitionCamera({ active, instant }) {
   return null;
 }
 
-// Terminal Prompt Component
+// ==========================================
+// 2. Terminal Prompt Component
+// ==========================================
 function InitPrompt({ active, onInit, visible }) {
   const command = './init_portfolio.sh';
   const [typed, setTyped] = useState('');
@@ -119,47 +75,21 @@ function InitPrompt({ active, onInit, visible }) {
       distanceFactor={0.9}
       occlude={false}
       zIndexRange={[100, 0]}
-      style={{ 
-        pointerEvents: active ? 'none' : 'auto', 
-        transition: 'opacity 0.4s ease', 
-        opacity: active ? 0 : 1, 
-        display: visible ? 'block' : 'none' 
-      }}
+      style={{ pointerEvents: active ? 'none' : 'auto', transition: 'opacity 0.4s ease', opacity: active ? 0 : 1, display: visible ? 'block' : 'none' }}
     >
-      <button
-        type="button"
-        onClick={onInit}
-        className="select-none px-2 py-1 text-left cursor-pointer translate-y-[10px]"
-      >
-        <p
-          className="whitespace-nowrap font-bold tracking-[0.25em]"
-          style={{
-            fontFamily: 'Fira Code, monospace',
-            fontSize: '88px',
-            WebkitFontSmoothing: 'antialiased',
-            willChange: 'transform, text-shadow, opacity',
-            color: '#92a2bf',
-            opacity: 0.52,
-            textShadow: isGlowing
-              ? '0 0 12px rgba(146, 162, 191, 0.35), 0 0 22px rgba(146, 162, 191, 0.16)'
-              : '0 0 0px rgba(146, 162, 191, 0)',
-            transition: 'text-shadow 0.8s ease-in-out',
-          }}
-        >
-          <span className="mr-4">{'>'}</span>
-          {typed}
-          <span
-            className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle opacity-85 bg-[#8ea0bf]"
-          />
+      <button type="button" onClick={onInit} className="select-none px-2 py-1 text-left cursor-pointer translate-y-[10px]">
+        <p className="whitespace-nowrap font-bold tracking-[0.25em]" style={{ fontFamily: 'Fira Code, monospace', fontSize: '88px', color: '#92a2bf', opacity: 0.52, textShadow: isGlowing ? '0 0 12px rgba(146, 162, 191, 0.35)' : 'none' }}>
+          <span className="mr-4">{'>'}</span>{typed}<span className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle opacity-85 bg-[#8ea0bf]" />
         </p>
       </button>
     </Html>
   );
 }
 
-// Main Scene Controller
+// ==========================================
+// 3. Main Scene Controller
+// ==========================================
 function SceneBackground({ isTransitioning, showPrompt, onInit }) {
-  
   // State resolution for reload handling
   const isHomeView = !showPrompt; 
   const forceActive = isTransitioning || isHomeView; 
@@ -167,17 +97,12 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#020205]">
-      <Canvas
-        camera={{ position: [0, 0, 5], fov: 60 }}
-        gl={{
-          toneMapping: THREE.ACESFilmicToneMapping,
-          toneMappingExposure: 1.35,
-        }}
-      >
+      <Canvas camera={{ position: [0, 0, 5], fov: 60 }} gl={{ toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.35 }}>
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 5, 5]} intensity={5} color="#cbd5e1" />
         <Stars radius={120} depth={70} count={1800} factor={2.1} saturation={0} fade speed={0.18} />
         
+        {/* Standard static Moon component */}
         <Moon
           onClick={onInit}
           isTransitioning={forceActive} 
@@ -190,26 +115,14 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         />
         
         <Mountain />
-        
         <TransitionCamera active={forceActive} instant={forceInstant} />
         
+        {/* Render orbit controls only on intro screen */}
         {!isTransitioning && showPrompt && (
-          <OrbitControls
-            enableZoom={false}
-            enablePan={false}
-            minPolarAngle={Math.PI / 2.2}
-            maxPolarAngle={Math.PI / 1.8}
-            minAzimuthAngle={-Math.PI / 8}
-            maxAzimuthAngle={Math.PI / 8}
-          />
+          <OrbitControls enableZoom={false} enablePan={false} minPolarAngle={Math.PI / 2.2} maxPolarAngle={Math.PI / 1.8} minAzimuthAngle={-Math.PI / 8} maxAzimuthAngle={Math.PI / 8} />
         )}
         
         <InitPrompt active={isTransitioning} onInit={onInit} visible={showPrompt} />
-
-        {!isTransitioning && !showPrompt && (
-          <ScrollReactiveImage />
-        )}
-
       </Canvas>
     </div>
   );

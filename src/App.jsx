@@ -3,7 +3,7 @@ import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'r
 import SceneBackground from './components/3D/SceneBackground';
 import Intro from './pages/Intro';
 import Home from './pages/Home';
-/*import Navbar from './components/Navigation/Navbar'; -- Later Add*/ 
+import Navbar from './components/Navigation/Navbar';
 
 // Configuration
 const TRANSITION_DURATION_MS = 1800;
@@ -41,14 +41,24 @@ function AppShell() {
       
       {/* 2D Overlay Container */}
       <div
-        className="pointer-events-none relative z-10 h-full w-full transition-opacity duration-700"
+        className="pointer-events-none relative z-10 flex h-full w-full flex-col transition-opacity duration-700"
         style={{ opacity: showContent ? 1 : 0 }}
       >
-        <Routes>
-          <Route path="/" element={<Intro />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        
+        {/* Navigation Layer: Clickable and only visible outside the intro */}
+        <div className="pointer-events-auto">
+          {location.pathname !== '/' && <Navbar />}
+        </div>
+
+        {/* Page Routing Layer */}
+        <div className="flex-1">
+          <Routes>
+            <Route path="/" element={<Intro />} />
+            <Route path="/home" element={<Home />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </div>
+
       </div>
     </>
   );
@@ -56,7 +66,7 @@ function AppShell() {
 
 function App() {
   return (
-    // HashRouter required for github pages 
+    // HashRouter required for GitHub Pages deployment
     <HashRouter>
       <div className="h-screen w-full bg-[#020205] overflow-x-hidden">
         <AppShell />
