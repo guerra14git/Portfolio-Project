@@ -27,6 +27,7 @@ function TransitionCamera({ active, instant }) {
 
     lerpedPos.current.lerpVectors(originPos.current, targetPos.current, progressRef.current);
     camera.position.copy(lerpedPos.current);
+
     camera.fov = THREE.MathUtils.lerp(60, 18, progressRef.current);
     camera.lookAt(lookAtTarget.current);
     camera.updateProjectionMatrix();
@@ -41,7 +42,6 @@ function InitPrompt({ active, onInit, visible }) {
   const [isDeleting, setIsDeleting] = useState(false);
   const [isGlowing, setIsGlowing] = useState(false);
 
-  // Typewriter effect logic
   useEffect(() => {
     let timeoutId;
     if (!isDeleting && typed.length < command.length) {
@@ -83,10 +83,7 @@ function InitPrompt({ active, onInit, visible }) {
 function SceneBackground({ isTransitioning, showPrompt, onInit }) {
   const isHomeView = !showPrompt; 
   const forceActive = isTransitioning || isHomeView; 
-  const forceInstant = isHomeView && !isTransitioning; 
-
-  // Simple check (Mobile)
-  const isMobile = window.innerWidth < 768;
+  const forceInstant = isHomeView && !isTransitioning; // Skip animation on page reload
 
   return (
     <div className="fixed inset-0 z-0 overflow-hidden bg-[#020205]">
@@ -98,11 +95,8 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         <Moon
           onClick={onInit}
           isTransitioning={forceActive} 
-          
-          introScaleMultiplier={isMobile ? 1.6 : 1}
-          
-          homeScaleMultiplier={isMobile ? 3.5 : 2.65}
-          
+          introScaleMultiplier={1}
+          homeScaleMultiplier={2.65}
           introBodyOpacity={0.34}
           homeBodyOpacity={0}
           introWireOpacity={1}
@@ -110,6 +104,7 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
         />
         
         <Mountain />
+        
         <TransitionCamera active={forceActive} instant={forceInstant} />
         
         {!isTransitioning && showPrompt && (

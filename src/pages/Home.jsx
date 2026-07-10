@@ -2,64 +2,93 @@ import React from 'react';
 
 function Home() {
   return (
-    // Main scroll container
-    <div className="pointer-events-auto relative z-10 h-full w-full overflow-y-auto overflow-x-hidden scroll-smooth">
+    <div className="pointer-events-auto relative z-10 flex min-h-[100svh] w-full justify-center px-4 pb-12 pt-28 sm:px-8">
       
-      {/* Hero Section */}
-      <div className="flex min-h-[100svh] w-full flex-col items-center justify-center p-6 pt-24">
+      <div className="flex w-full max-w-[1100px] flex-col items-start gap-8 lg:flex-row">
         
-        {/* Main Info Card */}
-        <div className="w-full max-w-[600px] rounded-xl border border-[#334155]/40 bg-space-card/60 p-8 backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.4)]">
+        <aside className="sticky top-28 w-full shrink-0 rounded-2xl border border-[#334155]/40 bg-[#020205]/60 p-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-md lg:w-[320px]">
           
-          {/* Header Profile Section: Image + Titles */}
-          <div className="mb-6 flex flex-col items-center gap-6 sm:flex-row sm:items-center">
-            
-            {/* Circular Profile Picture */}
+          <div className="flex flex-col items-center text-center">
+           
             <img 
               src="/myImg.jpg" 
               alt="Ricardo Guerra"
-              className="h-32 w-32 shrink-0 rounded-full border-2 border-[#334155]/50 object-cover shadow-[0_0_15px_rgba(0,0,0,0.5)] md:h-40 md:w-40"
+              className="mb-6 h-36 w-36 rounded-2xl border border-[#334155]/50 object-cover shadow-[0_0_15px_rgba(0,0,0,0.5)]"
             />
             
-            <div className="text-center sm:text-left">
-              <h1 className="mb-2 text-3xl font-bold text-white md:text-4xl">Ricardo Guerra</h1>
-              <p className="text-xs uppercase tracking-[0.2em] text-[#8ea0bf]">Software Engineer</p>
+            {/* Nome e Título */}
+            <h1 className="mb-2 text-2xl font-bold text-white">Ricardo Guerra</h1>
+            
+            <div className="mb-6 rounded-md px-4 py-1.5">
+              <p className="text-xs uppercase tracking-[0.1em] text-[#8ea0bf]">Computer Science Engineer</p>
             </div>
+
+            <div className="my-4 w-full border-t border-[#334155]/30"></div>
+
+            <button className="mt-4 w-full rounded-xl border border-cyan-500/50 py-1 text-sm font-medium text-cyan-400 transition hover:bg-cyan-500/20 hover:text-cyan-300">
+              DOWNLOAD CV
+            </button>
           </div>
+        </aside>
+
+        {/* =========================================
+            LADO DIREITO: CONTEÚDO (Faz Scroll)
+            ========================================= */}
+        <main className="flex-1 rounded-2xl border border-[#334155]/40 bg-[#020205]/60 p-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-md md:p-10">
           
-          {/* Text Description */}
-          <div className="text-center sm:text-left">
-            <p className="text-sm leading-relaxed text-gray-300 md:text-base">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut 
-              labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco 
-              laboris nisi ut aliquip ex ea commodo consequat.
+          {/* Título Principal */}
+          <h2 className="mb-6 flex items-center gap-4 text-3xl font-bold text-white">
+            About Me
+            <div className="h-[2px] w-32 bg-gradient-to-r from-cyan-500/80 to-transparent"></div>
+          </h2>
+          
+          {/* O texto que estava na Home antiga */}
+          <div className="space-y-4 text-sm leading-relaxed text-gray-300 md:text-base">
+            <p>
+              A 19 year-old Computer Engineering student at UTAD, Portugal.
             </p>
-
-            {/* Call to Action Buttons */}
-            <div className="mt-8 flex flex-wrap justify-center gap-4 sm:justify-start">
-              <button className="rounded-full border border-cyan-500/50 px-6 py-2 text-sm text-cyan-400 transition hover:bg-cyan-500/10">
-                VIEW MY PROJECTS
-              </button>
-              <button className="rounded-full bg-[#1e293b] px-6 py-2 text-sm text-white transition hover:bg-[#334155]">
-                CONTACT ME
-              </button>
-            </div>
+            <p>
+              Deep interest in learning about Cybersecurity and PenTesting. 
+              Currently building my foundational skills in software development and networking!
+            </p>
+            
+            {/* Parágrafo extra só para testares o scroll! Podes apagar depois */}
+            <p className="text-[#8ea0bf]">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam in odio in nisl 
+              tempor rutrum. Proin scelerisque urna ut erat fermentum, vel imperdiet urna 
+              consequat. Fusce luctus velit nec dolor consectetur, id aliquet nunc lacinia. 
+              Aenean vehicula consequat eros, non sodales urna sagittis sed.
+            </p>
           </div>
 
-        </div>
+          {/* Secção de Exemplo: What I'm Doing */}
+          <h3 className="mb-6 mt-12 text-2xl font-semibold text-white">What I'm Doing</h3>
+          
+          <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+            
+            {/* Cartão de Exemplo 1 */}
+            <div className="rounded-xl border border-[#334155]/30 bg-[#020205]/40 p-6 transition-colors hover:bg-[#1e293b]/40">
+              <h4 className="mb-2 font-semibold text-white">Web Development</h4>
+              <p className="text-sm text-gray-400">Building modern and responsive web applications using React and Tailwind.</p>
+            </div>
+
+            {/* Cartão de Exemplo 2 */}
+            <div className="rounded-xl border border-[#334155]/30 bg-[#020205]/40 p-6 transition-colors hover:bg-[#1e293b]/40">
+              <h4 className="mb-2 font-semibold text-white">Cybersecurity Labs</h4>
+              <p className="text-sm text-gray-400">Practicing penetration testing and network defense in controlled environments.</p>
+            </div>
+
+            {/* Cartão de Exemplo 3 */}
+            <div className="rounded-xl border border-[#334155]/30 bg-[#020205]/40 p-6 transition-colors hover:bg-[#1e293b]/40">
+              <h4 className="mb-2 font-semibold text-white">Software Engineering</h4>
+              <p className="text-sm text-gray-400">Learning core concepts of algorithms, data structures, and architecture at UTAD.</p>
+            </div>
+
+          </div>
+
+        </main>
 
       </div>
-
-      {/* Additional Content Section */}
-      <div className="flex min-h-[100svh] w-full flex-col items-center justify-center p-6 text-center">
-        <div className="max-w-2xl rounded-xl border border-[#334155]/30 bg-[#020205]/50 p-10 backdrop-blur-sm">
-          <h2 className="mb-4 text-3xl font-bold text-white">More Content</h2>
-          <p className="text-gray-400">
-            Keep scrolling to discover more about my projects and experience.
-          </p>
-        </div>
-      </div>
-
     </div>
   );
 }
