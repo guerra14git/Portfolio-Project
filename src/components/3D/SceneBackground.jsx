@@ -73,7 +73,7 @@ function InitPrompt({ active, onInit, visible }) {
     >
       <button type="button" onClick={onInit} className="select-none px-2 py-1 text-left cursor-pointer translate-y-[10px]">
         <p className="whitespace-nowrap font-bold tracking-[0.25em]" style={{ fontFamily: 'Fira Code, monospace', fontSize: '88px', color: '#92a2bf', opacity: 0.52, textShadow: isGlowing ? '0 0 12px rgba(146, 162, 191, 0.35)' : 'none' }}>
-          <span className="mr-4">{'>'}</span>{typed}<span className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle opacity-85 bg-[#8ea0bf]" />
+          <span className="mr-4">{'>'}</span>{typed}<span className="ml-3 inline-block h-[1.1em] w-[0.55ch] animate-pulse align-middle opacity-85 bg-cyber-gray" />
         </p>
       </button>
     </Html>
@@ -86,7 +86,7 @@ function SceneBackground({ isTransitioning, showPrompt, onInit }) {
   const forceInstant = isHomeView && !isTransitioning; // Skip animation on page reload
 
   return (
-    <div className="fixed inset-0 z-0 overflow-hidden bg-[#020205]">
+    <div className="fixed inset-0 z-0 overflow-hidden bg-cyber-black">
       <Canvas camera={{ position: [0, 0, 5], fov: 60 }} gl={{ toneMapping: THREE.ACESFilmicToneMapping, toneMappingExposure: 1.35 }}>
         <ambientLight intensity={0.3} />
         <directionalLight position={[5, 5, 5]} intensity={5} color="#cbd5e1" />

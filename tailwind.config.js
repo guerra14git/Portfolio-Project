@@ -12,7 +12,7 @@ export default {
           gray: '#8ea0bf',  // Secundary text
           white: '#ffffff', // Primary text
           accent: '#0ea5e9', // Buttons and highlights
-          line: '#334155',  // Lines and borders
+          line: '#334155',  // Lines and borders (not using, dont know why but it looks like the border is way way thicker)
           card: '#1e293b',  // Background of boxes and icons
         }
 

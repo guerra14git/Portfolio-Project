@@ -66,7 +66,7 @@ function AppShell() {
 function App() {
   return (
     <HashRouter>
-      <div className="h-screen w-full overflow-x-hidden bg-[#020205]">
+      <div className="h-screen w-full overflow-x-hidden bg-cyber-black">
         <AppShell />
       </div>
     </HashRouter>

@@ -4,12 +4,12 @@ import { Link } from 'react-router-dom';
 const IconLink = ({ to, label, children }) => (
   <Link 
     to={to} 
-    className="group relative flex items-center justify-center rounded-full p-2.5 text-[#8ea0bf] transition-all duration-300 hover:scale-120 hover:bg-[#334155]/50 hover:text-white"
+    className="group relative flex items-center justify-center rounded-full p-2.5 text-cyber-gray transition-all duration-300 hover:scale-120 hover:bg-[#334155]/50 hover:text-white"
     aria-label={label}
   >
     {children}
     
-    <span className="pointer-events-none absolute top-14 scale-0 whitespace-nowrap rounded-md border border-[#334155]/50 bg-[#020205] px-3 py-1.5 text-xs font-medium tracking-widest text-white opacity-0 shadow-xl transition-all duration-200 group-hover:scale-100 group-hover:opacity-100">
+    <span className="pointer-events-none absolute top-14 scale-0 whitespace-nowrap rounded-md border border-[#334155]/50 bg-cyber-black px-3 py-1.5 text-xs font-medium tracking-widest text-white opacity-0 shadow-xl transition-all duration-200 group-hover:scale-100 group-hover:opacity-100">
       {label}
     </span>
   </Link>
@@ -19,7 +19,7 @@ function Navbar() {
   return (
     <div className="fixed top-6 left-1/2 z-50 max-w-2xl -translate-x-1/2">
       
-      <nav className="flex items-center justify-between rounded-full border border-[#334155]/50 bg-[#020205]/60 px-6 py-3 backdrop-blur-md">
+      <nav className="flex items-center justify-between rounded-full border border-[#334155]/50 bg-cyber-black/60 px-6 py-3 backdrop-blur-md">
     
         <div className="flex w-full items-center justify-between gap-3">
           
