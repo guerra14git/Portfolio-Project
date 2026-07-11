@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { HashRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+
 import SceneBackground from './components/3D/SceneBackground';
+import Navbar from './components/Navigation/Navbar';
+
 import Intro from './pages/Intro';
 import Home from './pages/Home'; 
-import Navbar from './components/Navigation/Navbar';
+import Resume from './pages/Resume';
+import Projects from './pages/Projects';
+import Contact from './pages/Contact';
 
 const TRANSITION_DURATION_MS = 1800;
 const CONTENT_REVEAL_DELAY_MS = 800;
@@ -51,8 +56,10 @@ function AppShell() {
           <Routes>
             <Route path="/" element={<Intro />} />
             
-            <Route path="/home" element={<Home />} />
             <Route path="/about" element={<Home />} /> 
+            <Route path="/resume" element={<Resume />} />
+            <Route path="/projects" element={<Projects />} />
+            <Route path="/contact" element={<Contact />} />
             
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
