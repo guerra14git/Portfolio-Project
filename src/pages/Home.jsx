@@ -9,7 +9,7 @@ function Home() {
       <div className="flex w-full max-w-[1300px] flex-col items-start gap-8 lg:flex-row">
         
         {/* left sidebar */}
-        <aside className="w-full shrink-0 rounded-2xl border border-[#334155]/10 bg-cyber-black/60 p-6 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-sm lg:sticky lg:top-28 lg:w-[320px] lg:p-8">
+        <aside className="w-full shrink-0 rounded-2xl border border-[#334155]/40 bg-cyber-black/50 p-6 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-[3px] lg:sticky lg:top-28 lg:w-[320px] lg:p-8">
           
           {/* header */}
           <div className="flex items-center lg:flex-col lg:text-center">
@@ -88,7 +88,7 @@ function Home() {
         </aside>
 
         {/*right sidebar*/}
-        <main className="flex-1 rounded-2xl border border-[#334155]/40 bg-cyber-black/10 p-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-sm md:p-10">
+        <main className="flex-1 rounded-2xl border border-[#334155]/40 bg-cyber-black/10 p-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-[3px] md:p-10">
           
           <h2 className="mb-6 flex items-center gap-4 text-3xl font-bold text-white">
             About Me
