@@ -8,12 +8,12 @@ export default {
     extend: {
       colors: {
         cyber: {
-          black: '#020205', // Background
-          gray: '#8ea0bf',  // Secundary text
+          black: '#090C15', // Background
+          gray: '#94A3B8',  // Secundary text
           white: '#ffffff', // Primary text
           accent: '#0ea5e9', // Buttons and highlights
           line: '#334155',  // Lines and borders (not using, dont know why but it looks like the border is way way thicker)
-          card: '#1e293b',  // Background of boxes and icons
+          card: '#161E2D',  // Background of boxes and icons
         }
 
       },
