@@ -3,25 +3,25 @@ import React, { useState } from 'react';
 const projectsList = [
   {
     id: 1,
-    title: "ESP32 Network Scanner",
-    description: "A small hardware lab experiment using an ESP32 to scan and map local Wi-Fi networks.",
-    technologies: ["C++", "ESP32", "IoT"],
-    githubLink: "https://github.com/oteuuser/esp32-scanner"
-  },
-  {
-    id: 2,
-    title: "Simple Port Scanner",
-    description: "A lightweight Python script created to understand TCP/IP connections and identify open ports on local machines.",
-    technologies: ["Python", "Networking", "Security"],
-    githubLink: "https://github.com/oteuuser/port-scanner"
-  },
-  {
-    id: 3,
     title: "Portfolio Website",
     description: "My personal digital space built from scratch to showcase my journey in software engineering and cybersecurity.",
     technologies: ["React", "Tailwind CSS", "Vite"],
-    githubLink: "https://github.com/oteuuser/portfolio"
-  }
+    githubLink: "https://github.com/guerra14git/Portfolio-Project.git"
+  },
+  {
+    id: 2,
+    title: "Lorem ipsum",
+    description: "",
+    technologies: ["C++", "ESP32", "IoT"],
+    githubLink: ""
+  },
+  {
+    id: 3,
+    title: "Lorem ipsum",
+    description: "",
+    technologies: ["Python", "Networking", "Security"],
+    githubLink: ""
+  },
 ];
 
 function Projects() {
@@ -82,7 +82,7 @@ function Projects() {
                   </div>
                   <div className="flex min-w-0 flex-col">
                     <span className="text-[10px] font-medium uppercase tracking-wider text-cyber-gray">Email</span>
-                    <span className="truncate text-sm text-white" title="generic@email.com">generic@email.com</span>
+                    <span className="truncate text-sm text-white" title="contacts@ricardoguerra.dev">contacts@ricardoguerra.dev</span>
                   </div>
                 </div>
 

@@ -59,7 +59,7 @@ function Home() {
                   </div>
                   <div className="flex min-w-0 flex-col">
                     <span className="text-[10px] font-medium uppercase tracking-wider text-cyber-gray">Email</span>
-                    <span className="truncate text-sm text-white" title="generic@email.com">generic@email.com</span>
+                    <span className="truncate text-sm text-white" title="contacts@ricardoguerra.dev">contacts@ricardoguerra.dev</span>
                   </div>
                 </div>
 
@@ -95,16 +95,10 @@ function Home() {
             Resume
             <div className="mt-4 h-[3px] w-12 rounded-full bg-cyber-accent/80"></div>
           </h2>
-
-          {/* =======================
-              SECÇÃO: EDUCATION 
-              ======================= */}
           <div className="mb-14">
             
-            {/* Cabeçalho da Secção */}
             <div className="mb-8 flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#334155]/50 bg-cyber-black/40 text-cyber-accent shadow-[0_0_15px_rgba(14,165,233,0.15)]">
-                {/* Ícone de Livro */}
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                 </svg>
@@ -112,40 +106,54 @@ function Home() {
               <h3 className="text-2xl font-semibold text-cyber-white">Education</h3>
             </div>
 
-            {/* Contentor da Linha Temporal */}
             <div className="relative ml-[23px] border-l border-[#334155]/50 pl-10">
               
-              {/* Item de Educação 1 */}
               <div className="relative mb-10">
-                {/* Bolinha Brilhante na Linha */}
                 <div className="absolute -left-[45px] top-2 h-2.5 w-2.5 rounded-full bg-cyber-accent shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div>
                 
-                <h4 className="text-lg font-bold text-cyber-white">University Name (Placeholder)</h4>
+                <h4 className="text-lg font-bold text-cyber-white">University of Trás-os-Montes and Alto Douro (UTAD)</h4>
                 <p className="mt-1 text-base text-cyber-gray">Bachelor of Science in Computer Engineering</p>
-                <p className="mt-2 text-sm text-cyber-accent">2022 — Present</p>
+                <p className="mt-2 text-sm text-cyber-accent">2024 — Present</p>
               </div>
 
-              {/* Item de Educação 2 */}
               <div className="relative">
                 <div className="absolute -left-[45px] top-2 h-2.5 w-2.5 rounded-full bg-cyber-accent shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div>
                 
-                <h4 className="text-lg font-bold text-cyber-white">High School Name</h4>
+                <h4 className="text-lg font-bold text-cyber-white">Morgado De Mateus High School</h4>
                 <p className="mt-1 text-base text-cyber-gray">Science and Technology</p>
-                <p className="mt-2 text-sm text-cyber-accent">2018 — 2021</p>
+                <p className="mt-2 text-sm text-cyber-accent">2021 — 2024</p>
               </div>
 
             </div>
           </div>
 
-          {/* =======================
-              SECÇÃO: EXPERIENCE 
-              ======================= */}
-          <div>
+          <div className="mb-14">
             
-            {/* Cabeçalho da Secção */}
             <div className="mb-8 flex items-center gap-4">
               <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#334155]/50 bg-cyber-black/40 text-cyber-accent shadow-[0_0_15px_rgba(14,165,233,0.15)]">
-                {/* Ícone de Mala de Trabalho */}
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+                </svg>
+              </div>
+              <h3 className="text-2xl font-semibold text-cyber-white">Certifications</h3>
+            </div>
+
+            <div className="relative ml-[23px] border-l border-[#334155]/50 pl-10">
+              
+              <div className="relative mb-10">
+                <div className="absolute -left-[45px] top-2 h-2.5 w-2.5 rounded-full bg-cyber-accent shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div>
+                
+                <h4 className="text-lg font-bold text-cyber-white">Ethical Hacker Certification</h4>
+                <p className="mt-1 text-base text-cyber-gray">Cisco Network Associate</p>
+                <p className="mt-2 text-sm text-cyber-accent">2026 — Present</p>
+              </div>
+            </div>
+          </div>
+          
+          <div>
+            
+            <div className="mb-8 flex items-center gap-4">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#334155]/50 bg-cyber-black/40 text-cyber-accent shadow-[0_0_15px_rgba(14,165,233,0.15)]">
                 <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="1.5">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M20.25 14.15v4.25c0 1.094-.787 2.036-1.872 2.18-2.087.277-4.216.42-6.378.42s-4.291-.143-6.378-.42c-1.085-.144-1.872-1.086-1.872-2.18v-4.25m16.5 0a2.18 2.18 0 00.75-1.661V8.706c0-1.081-.768-2.015-1.837-2.175a48.114 48.114 0 00-3.413-.387m4.5 8.006c-.194.165-.42.295-.673.38A23.978 23.978 0 0112 15.75c-2.648 0-5.195-.429-7.577-1.22a2.016 2.016 0 01-.673-.38m0 0A2.18 2.18 0 013 12.489V8.706c0-1.081.768-2.015 1.837-2.175a48.111 48.111 0 013.413-.387m7.5 0V5.25A2.25 2.25 0 0013.5 3h-3a2.25 2.25 0 00-2.25 2.25v.894m7.5 0a48.667 48.667 0 00-7.5 0M12 12.75h.008v.008H12v-.008z" />
                 </svg>
@@ -155,8 +163,8 @@ function Home() {
 
             {/* Contentor da Linha Temporal */}
             <div className="relative ml-[23px] border-l border-[#334155]/50 pl-10">
-              
-              {/* Item de Experiência 1 */}
+            
+              {/* 
               <div className="relative mb-10">
                 <div className="absolute -left-[45px] top-2 h-2.5 w-2.5 rounded-full bg-cyber-accent shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div>
                 
@@ -168,7 +176,7 @@ function Home() {
                   <span className="text-cyber-gray">6 mo</span>
                 </div>
                 
-                {/* Lista de Tarefas (Bullet Points) */}
+                
                 <ul className="list-inside list-disc space-y-1.5 text-sm leading-relaxed text-cyber-gray">
                   <li>Participated in team meetings to discuss new vulnerabilities and project updates.</li>
                   <li>Assisted in analyzing web application security using modern tools.</li>
@@ -176,7 +184,7 @@ function Home() {
                 </ul>
               </div>
 
-              {/* Item de Experiência 2 */}
+              
               <div className="relative">
                 <div className="absolute -left-[45px] top-2 h-2.5 w-2.5 rounded-full bg-cyber-accent shadow-[0_0_8px_rgba(14,165,233,0.8)]"></div>
                 
@@ -193,7 +201,7 @@ function Home() {
                   <li>Integrated third-party APIs for seamless data communication.</li>
                 </ul>
               </div>
-
+                  */}
             </div>
           </div>
 

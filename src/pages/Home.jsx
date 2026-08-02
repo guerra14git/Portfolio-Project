@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 function Home() {
   const [isInfoExpanded, setIsInfoExpanded] = useState(false);
 
@@ -59,7 +60,7 @@ function Home() {
                   </div>
                   <div className="flex min-w-0 flex-col">
                     <span className="text-[10px] font-medium uppercase tracking-wider text-cyber-gray">Email</span>
-                    <span className="truncate text-sm text-white" title="generic@email.com">generic@email.com</span>
+                    <span className="truncate text-sm text-white" title="contacts@ricardoguerra.dev">contacts@ricardoguerra.dev</span>
                   </div>
                 </div>
 
@@ -87,19 +88,21 @@ function Home() {
           </div>
         </aside>
 
-        {/*right sidebar*/}
+        {/* right sidebar */}
         <main className="flex-1 rounded-2xl border border-[#334155]/40 bg-cyber-black/10 p-8 shadow-[0_0_20px_rgba(0,0,0,0.4)] backdrop-blur-[3px] md:p-10">
           
-          <h2 className="mb-6 flex items-center gap-4 text-3xl font-bold text-white">
-            About Me
+          <div className="mb-6 flex items-center gap-4">
+            <h2 className="text-3xl font-bold text-[#334155]">$</h2>
+            <h2 className="text-3xl font-bold text-white font-jetbrains">whoami</h2>
             <div className="h-[2px] w-32 bg-gradient-to-r from-cyan-500/80 to-transparent"></div>
-          </h2>
+          </div>
           
           <div className="space-y-4 text-sm leading-relaxed text-gray-300 md:text-base">
-            <p>A 19 year-old Computer Engineering student at UTAD, Portugal.</p>
-            <p>Deep interest in learning about Cybersecurity and PenTesting. Currently building my foundational skills in software development and networking!</p>
-            <p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
-            <p>  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.  </p>
+            <p>A 20 year-old Computer Engineering student at UTAD, Portugal.</p>
+            <p>Deep interest in <b>Cybersecurity and PenTesting</b>. Currently building my foundational skills in software development and networking!</p>
+            <p>Hands-on experience with Linux environments, network analysis, and penetration testing methodologies, complemented by industry-recognized certifications from <b>Cisco Networking Academy</b>.</p>
+            <p>Passionate about vulnerability assessment, threat analysis, and continuous learning in Red Teaming environments.</p>
+            <p>Seeking entry-level opportunities, internships, or junior roles in Cybersecurity and Pen Testing.</p>
           </div>
 
           <h3 className="mb-6 mt-12 text-2xl font-semibold text-white">What I'm Doing</h3>
@@ -116,7 +119,19 @@ function Home() {
             <div className="rounded-xl border border-[#334155]/30 bg-cyber-black/40 p-6 transition-colors hover:bg-cyber-card/40">
               <h4 className="mb-2 font-semibold text-white">Hardware Hacking & RF</h4>
               <p className="text-sm text-gray-400">Exploring IoT security and wireless protocols. Building custom offensive tools with ESP32 microcontrollers and researching radio frequency vulnerabilities using nRF24L01 (for controlled jamming) and CC1101 transceivers.</p>
-            </div>      
+            </div>   
+            <div className="rounded-xl border border-[#334155]/30 bg-cyber-black/40 p-6 transition-colors hover:bg-cyber-card/40">
+              <h4 className="mb-2 font-semibold text-white">Network Security & Architecture</h4>
+              <p className="text-sm text-gray-400">Analyzing network traffic with Wireshark, configuring firewalls, and understanding routing protocols and defense-in-depth strategies.</p>
+            </div>   
+            <div className="rounded-xl border border-[#334155]/30 bg-cyber-black/40 p-6 transition-colors hover:bg-cyber-card/40">
+              <h4 className="mb-2 font-semibold text-white">Automation & Scripting</h4>
+              <p className="text-sm text-gray-400">Developing custom Python tools and Bash scripts for automated reconnaissance, log analysis, and system administration.</p>
+            </div>
+            <div className="rounded-xl border border-[#334155]/30 bg-cyber-black/40 p-6 transition-colors hover:bg-cyber-card/40">
+              <h4 className="mb-2 font-semibold text-white">Offensive Security Labs</h4>
+              <p className="text-sm text-gray-400">Active hands-on training on platforms like TryHackMe and Hack The Box, focusing on web exploitation, privilege escalation, and CTF challenges.</p>
+            </div>
           </div>
 
         </main>

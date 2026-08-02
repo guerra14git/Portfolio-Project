@@ -19,6 +19,7 @@ export default {
       },
       fontFamily: {
         mono: ['"Fira Code"', 'monospace', 'ui-monospace', 'SFMono-Regular'],
+        'jetbrains': ['"JetBrains Mono"', 'monospace'],
       }
     },
   },

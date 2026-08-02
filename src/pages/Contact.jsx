@@ -59,7 +59,7 @@ function Home() {
                   </div>
                   <div className="flex min-w-0 flex-col">
                     <span className="text-[10px] font-medium uppercase tracking-wider text-cyber-gray">Email</span>
-                    <span className="truncate text-sm text-white" title="generic@email.com">generic@email.com</span>
+                    <span className="truncate text-sm text-white" title="contacts@ricardoguerra.dev">contacts@ricardoguerra.dev</span>
                   </div>
                 </div>
 
